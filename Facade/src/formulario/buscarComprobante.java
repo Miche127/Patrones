@@ -4,9 +4,7 @@
  */
 package formulario;
 
-import PatronesEstructurales.Adapter;
 import controlador.ControladorReportes;
-import javax.swing.JOptionPane;
 
 /**
  *
@@ -34,7 +32,6 @@ public class buscarComprobante extends javax.swing.JPanel {
         jPanel7 = new javax.swing.JPanel();
         txtnumerofactura3 = new javax.swing.JTextField();
         btnbuscarfactura3 = new javax.swing.JButton();
-        btnExportarPDF = new javax.swing.JButton();
         jPanel8 = new javax.swing.JPanel();
         jLabel5 = new javax.swing.JLabel();
         jLabel6 = new javax.swing.JLabel();
@@ -54,33 +51,16 @@ public class buscarComprobante extends javax.swing.JPanel {
         jLabel14 = new javax.swing.JLabel();
         lbltotal = new javax.swing.JLabel();
 
-        setBackground(new java.awt.Color(0, 0, 0));
-
-        jPanel6.setBackground(new java.awt.Color(0, 0, 0));
+        jPanel6.setBackground(javax.swing.UIManager.getDefaults().getColor("Actions.Yellow"));
         jPanel6.setBorder(javax.swing.BorderFactory.createLineBorder(new java.awt.Color(0, 0, 0)));
 
-        jPanel7.setBackground(new java.awt.Color(0, 102, 102));
-        jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Datos Cliente", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 14))); // NOI18N
+        jPanel7.setBackground(javax.swing.UIManager.getDefaults().getColor("Actions.Yellow"));
+        jPanel7.setBorder(javax.swing.BorderFactory.createTitledBorder("Ingresar Numero de Factura"));
 
-        txtnumerofactura3.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-
-        btnbuscarfactura3.setBackground(new java.awt.Color(255, 255, 51));
-        btnbuscarfactura3.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        btnbuscarfactura3.setForeground(new java.awt.Color(0, 0, 0));
-        btnbuscarfactura3.setText("Buscar factura");
+        btnbuscarfactura3.setText("Buscar");
         btnbuscarfactura3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnbuscarfactura3ActionPerformed(evt);
-            }
-        });
-
-        btnExportarPDF.setBackground(new java.awt.Color(255, 255, 51));
-        btnExportarPDF.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        btnExportarPDF.setForeground(new java.awt.Color(0, 0, 0));
-        btnExportarPDF.setText("Exportar reporte a PDF");
-        btnExportarPDF.addActionListener(new java.awt.event.ActionListener() {
-            public void actionPerformed(java.awt.event.ActionEvent evt) {
-                btnExportarPDFActionPerformed(evt);
             }
         });
 
@@ -91,11 +71,9 @@ public class buscarComprobante extends javax.swing.JPanel {
             .addGroup(jPanel7Layout.createSequentialGroup()
                 .addGap(17, 17, 17)
                 .addComponent(txtnumerofactura3, javax.swing.GroupLayout.PREFERRED_SIZE, 284, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(76, 76, 76)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 51, Short.MAX_VALUE)
                 .addComponent(btnbuscarfactura3)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 98, Short.MAX_VALUE)
-                .addComponent(btnExportarPDF)
-                .addGap(46, 46, 46))
+                .addGap(18, 18, 18))
         );
         jPanel7Layout.setVerticalGroup(
             jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -103,33 +81,26 @@ public class buscarComprobante extends javax.swing.JPanel {
                 .addContainerGap()
                 .addGroup(jPanel7Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(txtnumerofactura3, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnbuscarfactura3)
-                    .addComponent(btnExportarPDF))
+                    .addComponent(btnbuscarfactura3))
                 .addContainerGap(18, Short.MAX_VALUE))
         );
 
-        jPanel8.setBackground(new java.awt.Color(0, 102, 102));
-        jPanel8.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Datos Cliente", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 14))); // NOI18N
+        jPanel8.setBackground(javax.swing.UIManager.getDefaults().getColor("Actions.Yellow"));
+        jPanel8.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos Cliente"));
 
-        jLabel5.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel5.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel5.setText("Nombres:");
 
-        jLabel6.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel6.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel6.setText("Ap_Paterno:");
 
-        jLabel7.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(0, 0, 0));
+        jLabel7.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel7.setText("Ap_Materno:");
 
-        lblnombrecliente.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         lblnombrecliente.setText("....");
 
-        lblappaterno.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         lblappaterno.setText("....");
 
-        lblapmaterno.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         lblapmaterno.setText("....");
 
         javax.swing.GroupLayout jPanel8Layout = new javax.swing.GroupLayout(jPanel8);
@@ -153,7 +124,7 @@ public class buscarComprobante extends javax.swing.JPanel {
                     .addGroup(jPanel8Layout.createSequentialGroup()
                         .addGap(6, 6, 6)
                         .addComponent(lblapmaterno, javax.swing.GroupLayout.PREFERRED_SIZE, 80, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap(39, Short.MAX_VALUE))
         );
         jPanel8Layout.setVerticalGroup(
             jPanel8Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -171,22 +142,16 @@ public class buscarComprobante extends javax.swing.JPanel {
                 .addContainerGap(19, Short.MAX_VALUE))
         );
 
-        jLabel3.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        jLabel3.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         jLabel3.setText("Fecha de Venta:");
 
-        lblfechafactura.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         lblfechafactura.setText("...");
 
-        fac.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
+        fac.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
         fac.setText("FACTURA: N#:");
 
-        lblfactura.setBackground(new java.awt.Color(0, 102, 102));
-        lblfactura.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         lblfactura.setText("...");
 
-        tbproductos.setBackground(new java.awt.Color(0, 102, 102));
-        tbproductos.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        tbproductos.setForeground(new java.awt.Color(0, 0, 0));
         tbproductos.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {},
@@ -200,23 +165,18 @@ public class buscarComprobante extends javax.swing.JPanel {
         ));
         jScrollPane2.setViewportView(tbproductos);
 
-        jLabel11.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jLabel11.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel11.setFont(new java.awt.Font("Segoe UI Black", 0, 12)); // NOI18N
         jLabel11.setText("Productos");
 
-        jLabel12.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jLabel12.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel12.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel12.setText("IVA:");
 
-        lbliva.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        lbliva.setText("__________");
+        lbliva.setText("_____");
 
-        jLabel14.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jLabel14.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel14.setFont(new java.awt.Font("Segoe UI", 1, 12)); // NOI18N
         jLabel14.setText("TOTAL:");
 
-        lbltotal.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        lbltotal.setText("__________");
+        lbltotal.setText("______");
 
         javax.swing.GroupLayout jPanel6Layout = new javax.swing.GroupLayout(jPanel6);
         jPanel6.setLayout(jPanel6Layout);
@@ -226,35 +186,37 @@ public class buscarComprobante extends javax.swing.JPanel {
                 .addGap(21, 21, 21)
                 .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel6Layout.createSequentialGroup()
-                        .addComponent(jLabel11)
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jPanel8, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(jPanel7, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
+                        .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                    .addGroup(jPanel6Layout.createSequentialGroup()
+                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addComponent(jLabel11)
+                            .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))
                         .addGap(0, 0, Short.MAX_VALUE))
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                        .addGap(0, 0, Short.MAX_VALUE)
-                        .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addGroup(jPanel6Layout.createSequentialGroup()
-                                .addComponent(jLabel14)
-                                .addGap(18, 18, 18)
-                                .addComponent(lbltotal))
-                            .addGroup(jPanel6Layout.createSequentialGroup()
-                                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                                .addComponent(lbliva, javax.swing.GroupLayout.PREFERRED_SIZE, 86, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                        .addGap(54, 54, 54))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
-                        .addComponent(fac)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(lblfactura, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addGap(18, 18, 18)
-                        .addComponent(jLabel3)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                        .addComponent(lblfechafactura, javax.swing.GroupLayout.PREFERRED_SIZE, 101, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(36, 36, 36))
-                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
                         .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                            .addComponent(jScrollPane2, javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(jPanel8, javax.swing.GroupLayout.Alignment.LEADING, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                            .addComponent(jPanel7, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                        .addGap(46, 46, 46))))
+                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(jLabel12, javax.swing.GroupLayout.PREFERRED_SIZE, 43, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lbliva, javax.swing.GroupLayout.PREFERRED_SIZE, 65, javax.swing.GroupLayout.PREFERRED_SIZE))
+                            .addGroup(jPanel6Layout.createSequentialGroup()
+                                .addComponent(fac)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(lblfactura, javax.swing.GroupLayout.PREFERRED_SIZE, 104, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 54, Short.MAX_VALUE)
+                                .addComponent(jLabel3)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                                .addComponent(lblfechafactura, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                        .addGap(81, 81, 81))))
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel6Layout.createSequentialGroup()
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(jLabel14)
+                .addGap(18, 18, 18)
+                .addComponent(lbltotal)
+                .addGap(120, 120, 120))
         );
         jPanel6Layout.setVerticalGroup(
             jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -278,10 +240,10 @@ public class buscarComprobante extends javax.swing.JPanel {
                     .addComponent(jLabel12)
                     .addComponent(lbliva))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(jPanel6Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
                     .addComponent(jLabel14)
                     .addComponent(lbltotal))
-                .addContainerGap(31, Short.MAX_VALUE))
+                .addContainerGap(16, Short.MAX_VALUE))
         );
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
@@ -289,49 +251,26 @@ public class buscarComprobante extends javax.swing.JPanel {
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(123, 123, 123)
+                .addContainerGap()
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(127, Short.MAX_VALUE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(127, 127, 127)
                 .addComponent(jPanel6, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(136, Short.MAX_VALUE))
+                .addGap(0, 0, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnbuscarfactura3ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnbuscarfactura3ActionPerformed
-        ControladorReportes objetoReportes = new ControladorReportes();
-
-        if (txtnumerofactura3.getText().trim().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Ingrese un número de factura.");
-            return;
-        }
-
-        try {
-            Integer.parseInt(txtnumerofactura3.getText()); // Validación de número
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "Número de factura inválido.");
-            return; 
-        }
-
-        objetoReportes.BuscarFacturaMostrarDatosclientes(txtnumerofactura3, lblfactura,
-                lblfechafactura, lblnombrecliente, lblappaterno, lblapmaterno);
+        controlador.ControladorReportes objetoReportes = new ControladorReportes();
+        objetoReportes.BuscarFacturaMostrarDatosclientes(txtnumerofactura3, lblfactura, lblfechafactura, lblnombrecliente, lblappaterno, lblapmaterno);
         objetoReportes.BucarFacturaDatosProductos(txtnumerofactura3, tbproductos, lbliva, lbltotal);
     }//GEN-LAST:event_btnbuscarfactura3ActionPerformed
 
-    private void btnExportarPDFActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnExportarPDFActionPerformed
-        // TODO add your handling code here:
-       PatronesComportamiento.IMediator mediator = new PatronesComportamiento.ExportarPDFMediator();
-mediator.exportarPDF(lblfactura, lblfechafactura, lblnombrecliente,
-                     lblappaterno, lblapmaterno, tbproductos, lbliva, lbltotal);
-    }//GEN-LAST:event_btnExportarPDFActionPerformed
-
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton btnExportarPDF;
     private javax.swing.JButton btnbuscarfactura3;
     private javax.swing.JLabel fac;
     private javax.swing.JLabel jLabel11;

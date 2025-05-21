@@ -4,28 +4,16 @@
  */
 package modelo;
 
-import PatronesComportamiento.Prototype.Clonable;
 /**
  *
  * @author Samuel
  */
-public class ModeloCliente implements Clonable<ModeloCliente>{
+public class ModeloCliente {
 
     int idCliente;
     String nombres;
     String apPaterno;
     String apMaterno;
-    
-    public ModeloCliente() {
-        
-    }
-    
-    public ModeloCliente(int idCliente, String nombre, String appaterno, String apmaterno) {
-        this.idCliente = idCliente;
-        this.nombres = nombre;
-        this.apPaterno = appaterno;
-        this.apMaterno = apmaterno;
-    }
 
     public int getIdCliente() {
         return idCliente;
@@ -57,10 +45,5 @@ public class ModeloCliente implements Clonable<ModeloCliente>{
 
     public void setApMaterno(String apMaterno) {
         this.apMaterno = apMaterno;
-    }
-    
-    @Override
-    public ModeloCliente clonar() {
-        return new ModeloCliente(idCliente, nombres, apPaterno, apMaterno);
     }
 }

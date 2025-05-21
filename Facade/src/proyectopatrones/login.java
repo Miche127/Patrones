@@ -6,12 +6,6 @@ package proyectopatrones;
 
 import javax.swing.JOptionPane;
 import formulario.MenuPrincipal;
-import PatronesCreacionales.ConexionSingleton;
-import PatronesCreacionales.SesionUsuarioSingleton;
-
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.ResultSet;
 
 /**
  *
@@ -116,7 +110,7 @@ public class login extends javax.swing.JFrame {
                 .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(37, 37, 37)
-                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                        .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
                             .addGroup(jPanel3Layout.createSequentialGroup()
                                 .addComponent(jLabel3)
                                 .addGap(18, 18, 18)
@@ -126,7 +120,7 @@ public class login extends javax.swing.JFrame {
                                 .addGap(18, 18, 18)
                                 .addComponent(txtContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, 246, javax.swing.GroupLayout.PREFERRED_SIZE)
                                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                                .addComponent(visualizar))))
+                                .addComponent(visualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 0, Short.MAX_VALUE))))
                     .addGroup(jPanel3Layout.createSequentialGroup()
                         .addGap(19, 19, 19)
                         .addComponent(jLabel5)))
@@ -148,8 +142,8 @@ public class login extends javax.swing.JFrame {
                     .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel3Layout.createSequentialGroup()
                         .addGap(38, 38, 38)
                         .addGroup(jPanel3Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(visualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))))
+                            .addComponent(txtContraseña, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE)
+                            .addComponent(visualizar, javax.swing.GroupLayout.PREFERRED_SIZE, 32, javax.swing.GroupLayout.PREFERRED_SIZE))))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(ingresar)
                 .addGap(111, 111, 111))
@@ -197,29 +191,23 @@ public class login extends javax.swing.JFrame {
 
     private void ingresarActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_ingresarActionPerformed
         // TODO add your handling code here:
-        String usuario = lblUsuario.getText().trim();
-        String pass = new String(txtContraseña.getPassword());
+        String usuario = lblUsuario.getText();
+        String pass = new String(txtContraseña.getText());
 
-        try {
-            Connection conn = ConexionSingleton.getInstancia().getConexion();
-            String sql = "SELECT * FROM usuario WHERE nombre_usuario = ? AND contrasena = ?";
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setString(1, usuario);
-            ps.setString(2, pass);
-            ResultSet rs = ps.executeQuery();
-
-            if (rs.next()) {
-                String rango = rs.getString("rango");
-                SesionUsuarioSingleton.getInstancia().setUsuario(usuario, rango);
-                JOptionPane.showMessageDialog(null, "Bienvenido " + usuario + " [" + rango + "]");
-                new MenuPrincipal().setVisible(true);
-                dispose();
-            } else {
-                JOptionPane.showMessageDialog(null, "Credenciales incorrectas");
-            }
-
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error al conectar: " + e.toString());
+        // Validar las credenciales
+        if ((usuario.equals("michel") && pass.equals("25488271"))
+                || (usuario.equals("gloria") && pass.equals("gloria"))
+                || (usuario.equals("samuel") && pass.equals("samuel"))
+                || (usuario.equals("fernando") && pass.equals("fernando"))
+                || (usuario.equals("mario") && pass.equals("mario"))) {
+            // Abrir el menú principal y pasar el tipo de usuario (administrador o empleado)
+            MenuPrincipal menu = new MenuPrincipal();
+            menu.setVisible(true);
+            // Cerrar la ventana actual de login
+            dispose();
+        } else {
+            // Mostrar mensaje de error si las credenciales son incorrectas
+            JOptionPane.showMessageDialog(null, "Credenciales inválidas");
         }
     }//GEN-LAST:event_ingresarActionPerformed
 

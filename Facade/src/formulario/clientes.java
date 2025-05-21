@@ -12,15 +12,11 @@ import controlador.ControladorCliente;
  */
 public class clientes extends javax.swing.JPanel {
 
-    ControladorCliente objetoCliente = new ControladorCliente();
-    
     /**
      * Creates new form clientes
      */
     public clientes() {
         initComponents();
-        objetoCliente.Mostrarclientes(tbclientes);  // ← ESTA LÍNEA ES OBLIGATORIA
-        idcliente.setEditable(false);   
     }
 
     /**
@@ -32,7 +28,6 @@ public class clientes extends javax.swing.JPanel {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
-        jPanel1 = new javax.swing.JPanel();
         btnmodificarclientes = new javax.swing.JButton();
         btneliminarclientes = new javax.swing.JButton();
         jScrollPane2 = new javax.swing.JScrollPane();
@@ -50,13 +45,6 @@ public class clientes extends javax.swing.JPanel {
         jButton3 = new javax.swing.JButton();
         btnguardarclientes = new javax.swing.JButton();
 
-        setBackground(new java.awt.Color(0, 0, 0));
-
-        jPanel1.setBackground(new java.awt.Color(0, 0, 0));
-
-        btnmodificarclientes.setBackground(new java.awt.Color(255, 255, 51));
-        btnmodificarclientes.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        btnmodificarclientes.setForeground(new java.awt.Color(0, 0, 0));
         btnmodificarclientes.setText("Modificar");
         btnmodificarclientes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -64,9 +52,6 @@ public class clientes extends javax.swing.JPanel {
             }
         });
 
-        btneliminarclientes.setBackground(new java.awt.Color(255, 255, 51));
-        btneliminarclientes.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        btneliminarclientes.setForeground(new java.awt.Color(0, 0, 0));
         btneliminarclientes.setText("Eliminar");
         btneliminarclientes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -74,9 +59,6 @@ public class clientes extends javax.swing.JPanel {
             }
         });
 
-        tbclientes.setBackground(new java.awt.Color(204, 204, 204));
-        tbclientes.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        tbclientes.setForeground(new java.awt.Color(0, 0, 0));
         tbclientes.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -95,47 +77,29 @@ public class clientes extends javax.swing.JPanel {
         });
         jScrollPane2.setViewportView(tbclientes);
 
-        jPanel2.setBackground(new java.awt.Color(0, 102, 102));
-        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder(null, "Datos Clientes", javax.swing.border.TitledBorder.DEFAULT_JUSTIFICATION, javax.swing.border.TitledBorder.DEFAULT_POSITION, new java.awt.Font("Dialog", 1, 14))); // NOI18N
-        jPanel2.setForeground(new java.awt.Color(0, 0, 0));
+        jPanel2.setBackground(javax.swing.UIManager.getDefaults().getColor("Actions.Yellow"));
+        jPanel2.setBorder(javax.swing.BorderFactory.createTitledBorder("Datos Clientes"));
 
-        jLabel5.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jLabel5.setForeground(new java.awt.Color(0, 0, 0));
         jLabel5.setText("id:");
 
-        jLabel6.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jLabel6.setForeground(new java.awt.Color(0, 0, 0));
         jLabel6.setText("Nombres:");
 
-        jLabel7.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jLabel7.setForeground(new java.awt.Color(0, 0, 0));
         jLabel7.setText("Ap.Paterno:");
 
-        jLabel8.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jLabel8.setForeground(new java.awt.Color(0, 0, 0));
         jLabel8.setText("Ap. Materno:");
 
-        idcliente.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         idcliente.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 idclienteActionPerformed(evt);
             }
         });
 
-        txtnombrecliente.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-
-        txtappaterno.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-
-        txtapmaterno.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
         txtapmaterno.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtapmaternoActionPerformed(evt);
             }
         });
 
-        btnlimpiarcampos1.setBackground(new java.awt.Color(255, 255, 51));
-        btnlimpiarcampos1.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        btnlimpiarcampos1.setForeground(new java.awt.Color(0, 0, 0));
         btnlimpiarcampos1.setText("Limpiar Campo");
         btnlimpiarcampos1.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -143,9 +107,6 @@ public class clientes extends javax.swing.JPanel {
             }
         });
 
-        jButton3.setBackground(new java.awt.Color(255, 255, 51));
-        jButton3.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        jButton3.setForeground(new java.awt.Color(0, 0, 0));
         jButton3.setText("Click p/Seleccionar");
         jButton3.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -160,23 +121,23 @@ public class clientes extends javax.swing.JPanel {
             .addGroup(jPanel2Layout.createSequentialGroup()
                 .addContainerGap()
                 .addComponent(jLabel5)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(idcliente, javax.swing.GroupLayout.PREFERRED_SIZE, 56, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addGap(18, 18, 18)
+                .addComponent(idcliente, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel6)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtnombrecliente, javax.swing.GroupLayout.DEFAULT_SIZE, 155, Short.MAX_VALUE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(txtnombrecliente, javax.swing.GroupLayout.PREFERRED_SIZE, 81, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel7)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtappaterno, javax.swing.GroupLayout.PREFERRED_SIZE, 159, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(10, 10, 10)
+                .addComponent(txtappaterno, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
                 .addComponent(jLabel8)
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(txtapmaterno, javax.swing.GroupLayout.PREFERRED_SIZE, 165, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(txtapmaterno, javax.swing.GroupLayout.PREFERRED_SIZE, 83, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(18, 18, 18)
                 .addComponent(btnlimpiarcampos1)
-                .addGap(44, 44, 44))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
             .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel2Layout.createSequentialGroup()
                 .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
                 .addComponent(jButton3)
@@ -196,14 +157,11 @@ public class clientes extends javax.swing.JPanel {
                     .addComponent(txtappaterno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(txtapmaterno, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
                     .addComponent(btnlimpiarcampos1))
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 26, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 29, Short.MAX_VALUE)
                 .addComponent(jButton3)
                 .addContainerGap())
         );
 
-        btnguardarclientes.setBackground(new java.awt.Color(255, 255, 51));
-        btnguardarclientes.setFont(new java.awt.Font("Dialog", 1, 14)); // NOI18N
-        btnguardarclientes.setForeground(new java.awt.Color(0, 0, 0));
         btnguardarclientes.setText("Guardar");
         btnguardarclientes.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -211,83 +169,60 @@ public class clientes extends javax.swing.JPanel {
             }
         });
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addContainerGap()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(jScrollPane2))
-                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
-                        .addComponent(btnguardarclientes, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(75, 75, 75)
-                        .addComponent(btnmodificarclientes, javax.swing.GroupLayout.PREFERRED_SIZE, 129, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(74, 74, 74)
-                        .addComponent(btneliminarclientes, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addGap(302, 302, 302))))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(31, 31, 31)
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
-                    .addComponent(btnguardarclientes, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btnmodificarclientes, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
-                    .addComponent(btneliminarclientes, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
-                .addGap(0, 24, Short.MAX_VALUE))
-        );
-
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(this);
         this.setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(42, 42, 42)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(41, Short.MAX_VALUE))
+                .addContainerGap()
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                    .addGroup(layout.createSequentialGroup()
+                        .addGap(6, 6, 6)
+                        .addComponent(jScrollPane2))
+                    .addComponent(jPanel2, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
+                .addContainerGap())
+            .addGroup(layout.createSequentialGroup()
+                .addGap(70, 70, 70)
+                .addComponent(btnguardarclientes, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                .addComponent(btnmodificarclientes, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(178, 178, 178)
+                .addComponent(btneliminarclientes, javax.swing.GroupLayout.PREFERRED_SIZE, 90, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(56, 56, 56))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(layout.createSequentialGroup()
-                .addGap(142, 142, 142)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(161, Short.MAX_VALUE))
+                .addContainerGap()
+                .addComponent(jPanel2, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.UNRELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 269, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(31, 31, 31)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(btnguardarclientes, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btnmodificarclientes, javax.swing.GroupLayout.PREFERRED_SIZE, 31, javax.swing.GroupLayout.PREFERRED_SIZE)
+                    .addComponent(btneliminarclientes, javax.swing.GroupLayout.PREFERRED_SIZE, 35, javax.swing.GroupLayout.PREFERRED_SIZE))
+                .addContainerGap(javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
         );
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnmodificarclientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnmodificarclientesActionPerformed
-        objetoCliente.ModificarCliente(idcliente, txtnombrecliente, txtappaterno, txtapmaterno);
-        objetoCliente.Mostrarclientes(tbclientes);
-        objetoCliente.limpiarCamposClientes(idcliente, txtnombrecliente, txtappaterno, txtapmaterno);
-    
-        /*controlador.ControladorCliente objetoCliente = new ControladorCliente();
+        controlador.ControladorCliente objetoCliente = new ControladorCliente();
         objetoCliente.ModificarCliente(idcliente, txtnombrecliente, txtappaterno, txtapmaterno);
         objetoCliente.Mostrarclientes(tbclientes );
-        objetoCliente.limpiarCamposClientes(idcliente, txtnombrecliente, txtappaterno, txtapmaterno);*/
+        objetoCliente.limpiarCamposClientes(idcliente, txtnombrecliente, txtappaterno, txtapmaterno);
     }//GEN-LAST:event_btnmodificarclientesActionPerformed
 
     private void btneliminarclientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btneliminarclientesActionPerformed
-        objetoCliente.EliminarClientes(idcliente);
-        objetoCliente.Mostrarclientes(tbclientes);
-        objetoCliente.limpiarCamposClientes(idcliente, txtnombrecliente, txtappaterno, txtapmaterno);
-        /*controlador.ControladorCliente objetoCliente = new ControladorCliente();
+        controlador.ControladorCliente objetoCliente = new ControladorCliente();
         objetoCliente.EliminarClientes(idcliente);
         objetoCliente.Mostrarclientes(tbclientes );
-        objetoCliente.limpiarCamposClientes(idcliente, txtnombrecliente, txtappaterno, txtapmaterno);*/
+        objetoCliente.limpiarCamposClientes(idcliente, txtnombrecliente, txtappaterno, txtapmaterno);
     }//GEN-LAST:event_btneliminarclientesActionPerformed
 
     private void tbclientesMouseClicked(java.awt.event.MouseEvent evt) {//GEN-FIRST:event_tbclientesMouseClicked
+        controlador.ControladorCliente objetoCliente = new ControladorCliente();
         objetoCliente.Seleccionar(tbclientes, idcliente, txtnombrecliente, txtappaterno, txtapmaterno);
-        /*controlador.ControladorCliente objetoCliente = new ControladorCliente();
-        objetoCliente.Seleccionar(tbclientes, idcliente, txtnombrecliente, txtappaterno, txtapmaterno);*/
     }//GEN-LAST:event_tbclientesMouseClicked
 
     private void idclienteActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_idclienteActionPerformed
@@ -308,13 +243,10 @@ public class clientes extends javax.swing.JPanel {
     }//GEN-LAST:event_jButton3ActionPerformed
 
     private void btnguardarclientesActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnguardarclientesActionPerformed
-        objetoCliente.AgregarCliente(txtnombrecliente, txtappaterno, txtapmaterno);
-        objetoCliente.Mostrarclientes(tbclientes);
-        objetoCliente.limpiarCamposClientes(idcliente, txtnombrecliente, txtappaterno, txtapmaterno);
-        /*controlador.ControladorCliente objetoCliente = new ControladorCliente();
+        controlador.ControladorCliente objetoCliente = new ControladorCliente();
         objetoCliente.AgregarCliente(txtnombrecliente, txtappaterno, txtapmaterno);
         objetoCliente.Mostrarclientes(tbclientes );
-        objetoCliente.limpiarCamposClientes(idcliente, txtnombrecliente, txtappaterno, txtapmaterno);*/
+        objetoCliente.limpiarCamposClientes(idcliente, txtnombrecliente, txtappaterno, txtapmaterno);
     }//GEN-LAST:event_btnguardarclientesActionPerformed
 
 
@@ -329,7 +261,6 @@ public class clientes extends javax.swing.JPanel {
     private javax.swing.JLabel jLabel6;
     private javax.swing.JLabel jLabel7;
     private javax.swing.JLabel jLabel8;
-    private javax.swing.JPanel jPanel1;
     private javax.swing.JPanel jPanel2;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable tbclientes;

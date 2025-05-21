@@ -1,197 +1,162 @@
+/*
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
+ * Click nbfs://nbhost/SystemFileSystem/Templates/Classes/Class.java to edit this template
+ */
 package controlador;
 
-import PatronesCreacionales.ConexionSingleton;
-import PatronesEstructurales.Flyweight;
-import PatronesEstructurales.Flyweight.Categoria;
-import PatronesEstructurales.Flyweight.CategoriaFactory;
-import javax.swing.JComboBox;
-import javax.swing.JOptionPane;
-import javax.swing.JTable;
-import javax.swing.JTextField;
-import javax.swing.table.DefaultTableModel;
 import java.sql.CallableStatement;
-import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.Statement;
+import javax.swing.*;
+import javax.swing.table.DefaultTableModel;
+import modelo.ModeloProducto;
 
 public class ControladorProducto {
 
-    public void MostrarProductos(JTable tablaTotalProductos) {
-        DefaultTableModel modelo = new DefaultTableModel();
-        modelo.addColumn("ID");
-        modelo.addColumn("Nombre");
-        modelo.addColumn("Precio");
-        modelo.addColumn("Stock");
-        modelo.addColumn("Categoría");
+    // === PATRÓN STATE ===
+    private EstadoProducto estadoActual;
 
-        tablaTotalProductos.setModel(modelo);
+    private interface EstadoProducto {
+        void ejecutar();
+    }
 
-        String sql = "SELECT idproducto, nombre, precioProducto, stock, categoria FROM producto;";
+    private void cambiarEstado(EstadoProducto nuevoEstado) {
+        this.estadoActual = nuevoEstado;
+        this.estadoActual.ejecutar();
+    }
 
-        try {
-            Connection conn = ConexionSingleton.getInstancia().getConexion();
-            Statement st = conn.createStatement();
-            ResultSet rs = st.executeQuery(sql);
+    // === MÉTODO CON STATE + FACADE ===
+    public void mostrarProductos(JTable tablaTotalProductos) {
+        cambiarEstado(() -> {
+            configuracion.Conexion conexion = new configuracion.Conexion();
+            ModeloProducto producto = new ModeloProducto();
+            DefaultTableModel modelo = new DefaultTableModel();
 
-            while (rs.next()) {
-                int    id       = rs.getInt("idproducto");
-                String nombre   = rs.getString("nombre");
-                double precio   = rs.getDouble("precioProducto");
-                int    stock    = rs.getInt("stock");
-                String catName  = rs.getString("categoria");
+            modelo.addColumn("id");
+            modelo.addColumn("nombresProd");
+            modelo.addColumn("Precio");
+            modelo.addColumn("Stock");
 
-                // 🪶 Flyweight
-                Categoria categoriaFly = CategoriaFactory.getCategoria(catName);
+            tablaTotalProductos.setModel(modelo);
 
-                modelo.addRow(new Object[]{
-                    id, nombre, precio, stock, categoriaFly.getNombre()
-                });
+            String sql = "SELECT idproducto, nombre, precioProducto, stock FROM producto";
+
+            try {
+                Statement st = conexion.estableceConexion().createStatement();
+                ResultSet rs = st.executeQuery(sql);
+
+                while (rs.next()) {
+                    producto.setIdProducto(rs.getInt("idproducto"));
+                    producto.setNombreProducto(rs.getString("nombre"));
+                    producto.setPrecioProducto(rs.getDouble("precioProducto"));
+                    producto.setStockProducto(rs.getInt("stock"));
+
+                    modelo.addRow(new Object[]{
+                        producto.getIdProducto(),
+                        producto.getNombreProducto(),
+                        producto.getPrecioProducto(),
+                        producto.getStockProducto()
+                    });
+                }
+
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Error al mostrar productos: " + e.toString());
+            } finally {
+                conexion.cerrarConexion();
             }
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(
-                null,
-                "Error al mostrar productos: " + e.toString(),
-                "Error",
-                JOptionPane.ERROR_MESSAGE
-            );
-        } finally {
-            ConexionSingleton.getInstancia().cerrarConexion();
-        }
+        });
     }
 
-    public void AgregarProducto(JTextField nombres,
-                                JTextField precioProducto,
-                                JTextField stock,
-                                JComboBox<String> cmbCategoria) {
+    // === MÉTODOS FACADE ===
+    public void agregarProducto(JTextField nombre, JTextField precio, JTextField stock) {
+        configuracion.Conexion conexion = new configuracion.Conexion();
+        ModeloProducto producto = new ModeloProducto();
 
-        String sql = "INSERT INTO producto "
-                   + "(nombre, precioProducto, stock, categoria) "
-                   + "VALUES (?,?,?,?);";
+        String consulta = "INSERT INTO producto (nombre, precioProducto, stock) VALUES (?, ?, ?);";
 
         try {
-            Connection conn = ConexionSingleton.getInstancia().getConexion();
+            producto.setNombreProducto(nombre.getText());
+            producto.setPrecioProducto(Double.parseDouble(precio.getText()));
+            producto.setStockProducto(Integer.parseInt(stock.getText()));
 
-            String nombreText = nombres.getText();
-            double precioVal  = Double.parseDouble(precioProducto.getText());
-            int    stockVal   = Integer.parseInt(stock.getText());
-            String catText    = cmbCategoria.getSelectedItem().toString();
-
-            // Flyweight
-            Categoria categoriaFly = CategoriaFactory.getCategoria(catText);
-
-            CallableStatement cs = conn.prepareCall(sql);
-            cs.setString(1, nombreText);
-            cs.setDouble(2, precioVal);
-            cs.setInt(3, stockVal);
-            cs.setString(4, categoriaFly.getNombre());
+            CallableStatement cs = conexion.estableceConexion().prepareCall(consulta);
+            cs.setString(1, producto.getNombreProducto());
+            cs.setDouble(2, producto.getPrecioProducto());
+            cs.setInt(3, producto.getStockProducto());
 
             cs.execute();
-            JOptionPane.showMessageDialog(null, "Producto agregado correctamente.");
+            JOptionPane.showMessageDialog(null, "Se guardó correctamente");
+
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(
-                null,
-                "Error al guardar producto: " + e.toString(),
-                "Error",
-                JOptionPane.ERROR_MESSAGE
-            );
+            JOptionPane.showMessageDialog(null, "Error al guardar: " + e.toString());
         } finally {
-            ConexionSingleton.getInstancia().cerrarConexion();
+            conexion.cerrarConexion();
         }
     }
 
-    public void Seleccionar(JTable tabla,
-                           JTextField id,
-                           JTextField nombres,
-                           JTextField precioProducto,
-                           JTextField stock,
-                           JComboBox<String> cmbCategoria) {
-
+    public void seleccionarProducto(JTable tabla, JTextField id, JTextField nombre, JTextField precio, JTextField stock) {
         int fila = tabla.getSelectedRow();
-        if (fila < 0) return;
-
-        id.setText( tabla.getValueAt(fila, 0).toString() );
-        nombres.setText( tabla.getValueAt(fila, 1).toString() );
-        precioProducto.setText( tabla.getValueAt(fila, 2).toString() );
-        stock.setText( tabla.getValueAt(fila, 3).toString() );
-        cmbCategoria.setSelectedItem( tabla.getValueAt(fila, 4).toString() );
-    }
-
-    public void ModificarProducto(JTextField id,
-                                  JTextField nombres,
-                                  JTextField precioProducto,
-                                  JTextField stock,
-                                  JComboBox<String> cmbCategoria) {
-
-        String sql = "UPDATE producto SET "
-                   + "nombre = ?, precioProducto = ?, stock = ?, categoria = ? "
-                   + "WHERE idproducto = ?;";
-
-        try {
-            Connection conn = ConexionSingleton.getInstancia().getConexion();
-
-            int    idVal      = Integer.parseInt(id.getText());
-            String nombreText = nombres.getText();
-            double precioVal  = Double.parseDouble(precioProducto.getText());
-            int    stockVal   = Integer.parseInt(stock.getText());
-            String catText    = cmbCategoria.getSelectedItem().toString();
-
-            // 🪶 Flyweight
-            Categoria categoriaFly = CategoriaFactory.getCategoria(catText);
-
-            CallableStatement cs = conn.prepareCall(sql);
-            cs.setString(1, nombreText);
-            cs.setDouble(2, precioVal);
-            cs.setInt(3, stockVal);
-            cs.setString(4, categoriaFly.getNombre());
-            cs.setInt(5, idVal);
-
-            cs.execute();
-            JOptionPane.showMessageDialog(null, "Producto modificado correctamente.");
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(
-                null,
-                "Error al modificar producto: " + e.toString(),
-                "Error",
-                JOptionPane.ERROR_MESSAGE
-            );
-        } finally {
-            ConexionSingleton.getInstancia().cerrarConexion();
+        if (fila >= 0) {
+            id.setText(tabla.getValueAt(fila, 0).toString());
+            nombre.setText(tabla.getValueAt(fila, 1).toString());
+            precio.setText(tabla.getValueAt(fila, 2).toString());
+            stock.setText(tabla.getValueAt(fila, 3).toString());
         }
     }
 
-    public void EliminarProductos(JTextField id) {
-        String sql = "DELETE FROM producto WHERE idproducto = ?;";
+    public void modificarProducto(JTextField id, JTextField nombre, JTextField precio, JTextField stock) {
+        configuracion.Conexion conexion = new configuracion.Conexion();
+        ModeloProducto producto = new ModeloProducto();
+
+        String consulta = "UPDATE producto SET nombre = ?, precioProducto = ?, stock = ? WHERE idproducto = ?;";
 
         try {
-            Connection conn = ConexionSingleton.getInstancia().getConexion();
-            int idVal = Integer.parseInt(id.getText());
+            producto.setIdProducto(Integer.parseInt(id.getText()));
+            producto.setNombreProducto(nombre.getText());
+            producto.setPrecioProducto(Double.parseDouble(precio.getText()));
+            producto.setStockProducto(Integer.parseInt(stock.getText()));
 
-            CallableStatement cs = conn.prepareCall(sql);
-            cs.setInt(1, idVal);
+            CallableStatement cs = conexion.estableceConexion().prepareCall(consulta);
+            cs.setString(1, producto.getNombreProducto());
+            cs.setDouble(2, producto.getPrecioProducto());
+            cs.setInt(3, producto.getStockProducto());
+            cs.setInt(4, producto.getIdProducto());
+
             cs.execute();
+            JOptionPane.showMessageDialog(null, "Se modificó correctamente");
 
-            JOptionPane.showMessageDialog(null, "Producto eliminado correctamente.");
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(
-                null,
-                "Error al eliminar producto: " + e.toString(),
-                "Error",
-                JOptionPane.ERROR_MESSAGE
-            );
+            JOptionPane.showMessageDialog(null, "Error al modificar: " + e.toString());
         } finally {
-            ConexionSingleton.getInstancia().cerrarConexion();
+            conexion.cerrarConexion();
         }
     }
 
-    public void limpiarCamposproductos(JTextField id,
-                                       JTextField nombres,
-                                       JTextField precioProducto,
-                                       JTextField stock,
-                                       JComboBox<String> cmbCategoria) {
-        id.setText("");
-        nombres.setText("");
-        precioProducto.setText("");
-        stock.setText("");
-        cmbCategoria.setSelectedIndex(0);
+    public void eliminarProducto(JTextField id) {
+        configuracion.Conexion conexion = new configuracion.Conexion();
+        ModeloProducto producto = new ModeloProducto();
+
+        String consulta = "DELETE FROM producto WHERE idproducto = ?;";
+
+        try {
+            producto.setIdProducto(Integer.parseInt(id.getText()));
+
+            CallableStatement cs = conexion.estableceConexion().prepareCall(consulta);
+            cs.setInt(1, producto.getIdProducto());
+
+            cs.execute();
+            JOptionPane.showMessageDialog(null, "Se eliminó correctamente");
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "No se eliminó correctamente: " + e.toString());
+        } finally {
+            conexion.cerrarConexion();
+        }
+    }
+
+    public void limpiarCampos(JTextField... campos) {
+        for (JTextField campo : campos) {
+            campo.setText("");
+        }
     }
 }

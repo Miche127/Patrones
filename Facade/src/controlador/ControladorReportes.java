@@ -4,90 +4,130 @@
  */
 package controlador;
 
-import PatronesCreacionales.ConexionSingleton;
-import com.toedter.calendar.JCalendar;
-
+//import com.toedter.calendar.JCalendar;
+import java.sql.Date;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.text.DecimalFormat;
 import javax.swing.*;
 import javax.swing.table.DefaultTableModel;
-import java.sql.*;
-import java.text.DecimalFormat;
-
-/**
- *
- * @author Michel Mendez
- */
 
 public class ControladorReportes {
 
-    public void BuscarFacturaMostrarDatosclientes(JTextField numeroFactura, JLabel lblFactura,
-            JLabel lblFecha, JLabel lblNombre,
-            JLabel lblAppaterno, JLabel lblApmaterno) {
-        if (numeroFactura.getText().trim().isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Ingrese un número de factura.");
+    // === PATRÓN STATE ===
+    private EstadoReporte estadoActual;
+
+    private interface EstadoReporte {
+        void ejecutar();
+    }
+
+    private void cambiarEstado(EstadoReporte nuevoEstado) {
+        this.estadoActual = nuevoEstado;
+        this.estadoActual.ejecutar();
+    }
+
+    // === MÉTODO CON STATE + FACADE ===
+    public void buscarFacturaConDatosCliente(JTextField numeroFacturaInput, JLabel idFactura, JLabel fecha, JLabel nombre, JLabel apPaterno, JLabel apMaterno) {
+        cambiarEstado(() -> {
+            if (numeroFacturaInput == null || numeroFacturaInput.getText().trim().isEmpty()) {
+                JOptionPane.showMessageDialog(null, "Ingrese un número de factura válido.");
+                return;
+            }
+
+            configuracion.Conexion conexion = new configuracion.Conexion();
+
+            try {
+                String sql = """
+                    SELECT factura.idfactura, factura.fechaFactura, cliente.nombres, cliente.appaterno, cliente.apmaterno
+                    FROM factura
+                    INNER JOIN cliente ON cliente.idcliente = factura.fkcliente
+                    WHERE factura.idfactura = ?;
+                    """;
+
+                PreparedStatement ps = conexion.estableceConexion().prepareStatement(sql);
+                ps.setInt(1, Integer.parseInt(numeroFacturaInput.getText().trim()));
+                ResultSet rs = ps.executeQuery();
+
+                if (rs.next()) {
+                    idFactura.setText(String.valueOf(rs.getInt("idfactura")));
+                    fecha.setText(rs.getDate("fechaFactura").toString());
+                    nombre.setText(rs.getString("nombres"));
+                    apPaterno.setText(rs.getString("appaterno"));
+                    apMaterno.setText(rs.getString("apmaterno"));
+                } else {
+                    JOptionPane.showMessageDialog(null, "No se encontró la factura.");
+                }
+
+            } catch (NumberFormatException e) {
+                JOptionPane.showMessageDialog(null, "Número de factura inválido.");
+            } catch (Exception e) {
+                JOptionPane.showMessageDialog(null, "Error al buscar la factura: " + e.toString());
+            } finally {
+                conexion.cerrarConexion();
+            }
+        });
+    }
+
+    // === MÉTODOS FACADE ===
+    public void buscarProductosPorFactura(JTextField numeroFactura, JTable tablaProductos, JLabel iva, JLabel total) {
+        if (numeroFactura == null || numeroFactura.getText().trim().isEmpty()) {
+            JOptionPane.showMessageDialog(null, "Ingrese un número de factura válido.");
             return;
         }
 
-        try (Connection conn = ConexionSingleton.getInstancia().getConexion()) {
-            String sql = "SELECT f.idfactura, f.fechaFactura, c.nombres, c.appaterno, c.apmaterno "
-                    + "FROM factura f JOIN cliente c ON f.fkcliente = c.idcliente "
-                    + "WHERE f.idfactura = ?";
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setInt(1, Integer.parseInt(numeroFactura.getText().trim()));
-            ResultSet rs = ps.executeQuery();
-
-            if (rs.next()) {
-                lblFactura.setText(rs.getString("idfactura"));
-                lblFecha.setText(rs.getString("fechaFactura"));
-                lblNombre.setText(rs.getString("nombres"));
-                lblAppaterno.setText(rs.getString("appaterno"));
-                lblApmaterno.setText(rs.getString("apmaterno"));
-            } else {
-                JOptionPane.showMessageDialog(null, "No se encontró la factura.");
-            }
-        } catch (NumberFormatException e) {
-            JOptionPane.showMessageDialog(null, "Número inválido.");
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error al buscar factura: " + e.getMessage());
-        }
-    }
-
-    public void BucarFacturaDatosProductos(JTextField numeroFactura, JTable tabla, JLabel lblIVA, JLabel lblTotal) {
-        DefaultTableModel modelo = new DefaultTableModel(new String[]{"Producto", "Cantidad", "Precio", "Subtotal"}, 0);
-        tabla.setModel(modelo);
-
-        try (Connection conn = ConexionSingleton.getInstancia().getConexion()) {
-            String sql = "SELECT p.nombre, d.cantidad, d.precioVenta "
-                    + "FROM detalle d JOIN producto p ON d.fkproducto = p.idproducto "
-                    + "WHERE d.fkfactura = ?";
-            PreparedStatement ps = conn.prepareStatement(sql);
-            ps.setInt(1, Integer.parseInt(numeroFactura.getText().trim()));
-            ResultSet rs = ps.executeQuery();
-
-            double total = 0;
-            while (rs.next()) {
-                int cantidad = rs.getInt("cantidad");
-                double precio = rs.getDouble("precioVenta");
-                double subtotal = cantidad * precio;
-                total += subtotal;
-                modelo.addRow(new Object[]{rs.getString("nombre"), cantidad, precio, subtotal});
-            }
-
-            DecimalFormat df = new DecimalFormat("#.##");
-            lblTotal.setText(df.format(total));
-            lblIVA.setText(df.format(total * 0.18));
-
-        } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error al mostrar productos: " + e.getMessage());
-        }
-    }
-
-    public void MostrarTotalVentaPorFecha(JCalendar desde, JCalendar hasta, JTable tablaVentas, JLabel totalGeneral) {
-
-        //configuracion.Conexion objetoConexion = new configuracion.Conexion();
+        configuracion.Conexion conexion = new configuracion.Conexion();
         DefaultTableModel modelo = new DefaultTableModel();
-        modelo.addColumn("idFActura");
+        modelo.addColumn("N.Producto");
+        modelo.addColumn("Cantidad");
+        modelo.addColumn("PrecioVenta");
+        modelo.addColumn("Subtotal");
+
+        tablaProductos.setModel(modelo);
+
+        try {
+            String sql = """
+                SELECT producto.nombre, detalle.cantidad, detalle.precioVenta
+                FROM detalle
+                INNER JOIN factura ON factura.idfactura = detalle.fkfactura
+                INNER JOIN producto ON producto.idproducto = detalle.fkproducto
+                WHERE factura.idfactura = ?;
+                """;
+
+            PreparedStatement ps = conexion.estableceConexion().prepareStatement(sql);
+            ps.setInt(1, Integer.parseInt(numeroFactura.getText().trim()));
+            ResultSet rs = ps.executeQuery();
+
+            double totalFactura = 0.0;
+            double ivaPorcentaje = 0.10;
+            DecimalFormat formato = new DecimalFormat("#.##");
+
+            while (rs.next()) {
+                String nombreProducto = rs.getString("nombre");
+                int cantidad = rs.getInt("cantidad");
+                double precioVenta = rs.getDouble("precioVenta");
+                double subtotal = cantidad * precioVenta;
+
+                totalFactura += subtotal;
+                modelo.addRow(new Object[]{nombreProducto, cantidad, precioVenta, subtotal});
+            }
+
+            double totalIVA = Double.parseDouble(formato.format(totalFactura * ivaPorcentaje));
+            iva.setText(String.valueOf(totalIVA));
+            total.setText(String.valueOf(totalFactura));
+
+        } catch (Exception e) {
+            JOptionPane.showMessageDialog(null, "Error al mostrar los productos: " + e.toString());
+        } finally {
+            conexion.cerrarConexion();
+        }
+    }
+
+    public void mostrarVentasPorFecha(JCalendar desde, JCalendar hasta, JTable tablaVentas, JLabel totalGeneral) {
+        configuracion.Conexion conexion = new configuracion.Conexion();
+        DefaultTableModel modelo = new DefaultTableModel();
+        modelo.addColumn("idFactura");
         modelo.addColumn("FechaFactura");
-        modelo.addColumn("NProduct");
+        modelo.addColumn("N.Producto");
         modelo.addColumn("Cantidad");
         modelo.addColumn("PrecioVenta");
         modelo.addColumn("SubTotal");
@@ -95,18 +135,18 @@ public class ControladorReportes {
         tablaVentas.setModel(modelo);
 
         try {
-            Connection conn = PatronesCreacionales.ConexionSingleton.getInstancia().getConexion();
+            String sql = """
+                SELECT factura.idfactura, factura.fechaFactura, producto.nombre, detalle.cantidad, detalle.precioVenta
+                FROM detalle
+                INNER JOIN factura ON factura.idfactura = detalle.fkfactura
+                INNER JOIN producto ON producto.idproducto = detalle.fkproducto
+                WHERE factura.fechaFactura BETWEEN ? AND ?;
+                """;
 
-            String consulta = "SELECT factura.idfactura, factura.fechaFactura, producto.nombre, detalle.cantidad, detalle.precioVenta from detalle "
-                    + "INNER JOIN factura ON factura.idfactura = detalle.fkfactura "
-                    + "INNER JOIN producto ON producto.idproducto = detalle.fkproducto "
-                    + "where factura.fechaFactura Between ? and ?;";
-
-            PreparedStatement ps = conn.prepareStatement(consulta);
+            PreparedStatement ps = conexion.estableceConexion().prepareStatement(sql);
 
             java.util.Date fechaDesde = desde.getDate();
             java.util.Date fechaHasta = hasta.getDate();
-
             java.sql.Date fechaDesdeSQL = new java.sql.Date(fechaDesde.getTime());
             java.sql.Date fechaHastaSQL = new java.sql.Date(fechaHasta.getTime());
 
@@ -116,39 +156,30 @@ public class ControladorReportes {
             ResultSet rs = ps.executeQuery();
 
             double totalFactura = 0.0;
-
             DecimalFormat formato = new DecimalFormat("#.##");
 
             while (rs.next()) {
-
                 int idFactura = rs.getInt("idfactura");
                 Date fechaFactura = rs.getDate("fechaFactura");
-                String nombreProducto = rs.getString("idFactura");
+                String nombreProducto = rs.getString("nombre");
                 int cantidad = rs.getInt("cantidad");
                 double precioVenta = rs.getDouble("precioVenta");
-
                 double subtotal = cantidad * precioVenta;
 
-                totalFactura = Double.parseDouble(formato.format(totalFactura + subtotal));
-
+                totalFactura += subtotal;
                 modelo.addRow(new Object[]{idFactura, fechaFactura, nombreProducto, cantidad, precioVenta, subtotal});
             }
 
-            totalGeneral.setText(String.valueOf(totalFactura));
+            totalGeneral.setText(String.valueOf(formato.format(totalFactura)));
 
         } catch (Exception e) {
-            JOptionPane.showMessageDialog(null, "Error al buscar los ingresos por fechas" + e.toString());
-
+            JOptionPane.showMessageDialog(null, "Error al buscar los ingresos por fechas: " + e.toString());
         } finally {
-            PatronesCreacionales.ConexionSingleton.getInstancia().cerrarConexion();
+            conexion.cerrarConexion();
         }
 
         for (int column = 0; column < tablaVentas.getColumnCount(); column++) {
-
-            Class<?> columClass = tablaVentas.getColumnClass(column);
-            tablaVentas.setDefaultEditor(columClass, null);
+            tablaVentas.setDefaultEditor(tablaVentas.getColumnClass(column), null);
         }
-
     }
-
 }
