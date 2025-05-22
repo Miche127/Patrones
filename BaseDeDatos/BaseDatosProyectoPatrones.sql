@@ -1,0 +1,92 @@
+-- Crear base de datos
+DROP DATABASE IF EXISTS alquileres;
+CREATE DATABASE alquileres CHARACTER SET utf8mb4 COLLATE utf8mb4_0900_ai_ci;
+USE alquileres;
+
+-- Tabla usuario
+DROP TABLE IF EXISTS usuario;
+CREATE TABLE usuario (
+  idusuario INT NOT NULL AUTO_INCREMENT,
+  nombre_usuario VARCHAR(50) NOT NULL,
+  contrasena VARCHAR(100) NOT NULL,
+  rango ENUM('Admin', 'Empleado') NOT NULL,
+  PRIMARY KEY (idusuario)
+) ENGINE=InnoDB AUTO_INCREMENT=6 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+INSERT INTO usuario (idusuario, nombre_usuario, contrasena, rango) VALUES
+(1, 'michel', '25488271', 'Admin'),
+(2, 'gloria', 'gloria', 'Empleado'),
+(3, 'samuel', 'samuel', 'Admin'),
+(4, 'fernando', 'fernando', 'Empleado'),
+(5, 'mario', 'mario', 'Empleado');
+
+-- Tabla cliente
+DROP TABLE IF EXISTS cliente;
+CREATE TABLE cliente (
+  idcliente INT NOT NULL AUTO_INCREMENT,
+  nombres VARCHAR(100) DEFAULT NULL,
+  appaterno VARCHAR(100) DEFAULT NULL,
+  apmaterno VARCHAR(100) DEFAULT NULL,
+  PRIMARY KEY (idcliente)
+) ENGINE=InnoDB AUTO_INCREMENT=2 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+INSERT INTO cliente VALUES (1, 'Samuel', 'Pérez', 'Carrasco');
+
+-- Tabla producto
+DROP TABLE IF EXISTS producto;
+CREATE TABLE producto (
+  idproducto INT NOT NULL AUTO_INCREMENT,
+  nombre VARCHAR(100) DEFAULT NULL,
+  precioProducto DECIMAL(25,0) DEFAULT NULL,
+  stock INT DEFAULT NULL,
+  PRIMARY KEY (idproducto)
+) ENGINE=InnoDB AUTO_INCREMENT=41 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+INSERT INTO producto VALUES 
+(1,'SILLAS METALICAS',5,1000),(2,'SILLAS PLASTICAS',5,1000),
+(3,'SILLAS MADERA',15,1000),(4,'SILLAS TIFANY',20,1000),
+(5,'SILLAS ACOJINADAS',15,1000),(6,'SILLAS INFANTILES',5,1000),
+(7,'MESAS RECTANGULARES',70,100),(8,'MESAS CIRCULARES',70,100),
+(9,'MESAS CUADRADAS',70,100),(10,'MESAS INFANTILES',70,100),
+(11,'MANTELES MULTI COLOR',40,150),(12,'CUBRE MANTELES',30,100),
+(13,'PLATOS EXT/ TP GOURMET',5,200),(14,'PLATOS / TP GSOPA',5,200),
+(15,'PLATOS P/ PASTEL',5,200),(16,'TAZONES P/ CHOCOLATE',5,200),
+(17,'TAZAS CH',5,200),(18,'VASOS CRISTAL/ TP JAM',5,200),
+(19,'COPAS VIDRIO/ TP BRINDIS',5,200),(20,'CUCHARAS SOPERAS',5,200),
+(21,'TENEDORES',5,200),(23,'MODULO 4X8',700,2),(24,'MODULO 6X10',1200,2),
+(25,'MODULO 10X15',2000,2),(26,'ADD /CIELO BLNACO PARA MODULOS',500,6),
+(27,'CORTINAS P/MODULO 4X8',300,1),(28,'CORTINAS P/MODULO 6X10',300,1),
+(29,'CORTINAS P/MODULO 10X15',300,1),(30,'ILUMINACION P/ MODULO D LUJO',300,1),
+(31,'LONA 4X8',600,2),(32,'LONA 6X8',800,2),(33,'LONA 8X10',1000,2),
+(34,'LONA 10X15',1500,2),(35,'LONA 20X30',3000,2),
+(36,'CHAROLAS P/ MESEROS',50,10),(37,'HIELERA GRANDE',500,2),
+(38,'HIELERA CHICA',250,2),(39,'ILUMINACION GENERAL',1500,4),
+(40,'FORRAJE DE LUJO P/SILLAS',30,1000);
+
+-- Tabla factura
+DROP TABLE IF EXISTS factura;
+CREATE TABLE factura (
+  idfactura INT NOT NULL AUTO_INCREMENT,
+  fechaFactura DATE DEFAULT NULL,
+  fkcliente INT DEFAULT NULL,
+  PRIMARY KEY (idfactura),
+  KEY fkcliente (fkcliente),
+  CONSTRAINT factura_ibfk_1 FOREIGN KEY (fkcliente) REFERENCES cliente (idcliente)
+) ENGINE=InnoDB AUTO_INCREMENT=3 DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
+
+INSERT INTO factura VALUES (2,'2024-11-27',1);
+
+-- Tabla detalle
+DROP TABLE IF EXISTS detalle;
+CREATE TABLE detalle (
+  iddetalle INT NOT NULL AUTO_INCREMENT,
+  fkfactura INT DEFAULT NULL,
+  fkproducto INT DEFAULT NULL,
+  cantidad INT DEFAULT NULL,
+  precioVenta DECIMAL(5,2) DEFAULT NULL,
+  PRIMARY KEY (iddetalle),
+  KEY fkfactura (fkfactura),
+  KEY fkproducto (fkproducto),
+  CONSTRAINT detalle_ibfk_1 FOREIGN KEY (fkfactura) REFERENCES factura (idfactura),
+  CONSTRAINT detalle_ibfk_2 FOREIGN KEY (fkproducto) REFERENCES producto (idproducto)
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_ai_ci;
