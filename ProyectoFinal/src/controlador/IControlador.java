@@ -6,6 +6,5 @@ package controlador;
  * Aquí podrías añadir métodos comunes si los hay.
  */
 public interface IControlador {
-    // por ejemplo:
-    // void inicializar();
+
 }
