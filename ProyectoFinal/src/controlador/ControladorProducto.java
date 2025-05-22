@@ -40,7 +40,7 @@ public class ControladorProducto implements IControlador {
                 int    stock    = rs.getInt("stock");
                 String catName  = rs.getString("categoria");
 
-                // 🪶 Flyweight
+                // Flyweight
                 Categoria categoriaFly = CategoriaFactory.getCategoria(catName);
 
                 modelo.addRow(new Object[]{
@@ -76,7 +76,7 @@ public class ControladorProducto implements IControlador {
             int    stockVal   = Integer.parseInt(stock.getText());
             String catText    = cmbCategoria.getSelectedItem().toString();
 
-            // 🪶 Flyweight
+            // Flyweight
             Categoria categoriaFly = CategoriaFactory.getCategoria(catText);
 
             CallableStatement cs = conn.prepareCall(sql);
@@ -135,7 +135,7 @@ public class ControladorProducto implements IControlador {
             int    stockVal   = Integer.parseInt(stock.getText());
             String catText    = cmbCategoria.getSelectedItem().toString();
 
-            // 🪶 Flyweight
+            // Flyweight
             Categoria categoriaFly = CategoriaFactory.getCategoria(catText);
 
             CallableStatement cs = conn.prepareCall(sql);
